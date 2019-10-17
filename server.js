@@ -1,4 +1,4 @@
-// 3rd party
+// 3rd-party package  
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
