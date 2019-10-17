@@ -1,0 +1,13 @@
+{
+  "name": "waza-watch-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ThanhTam27/waza-watch-server.git",
+  "author": "ThanhTam27 <thanhtam180298@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5"
+  }
+}
