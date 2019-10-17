@@ -4,12 +4,16 @@ const Product = require('../models/products');
 
 // GET PRODUCT LIST
 router.get('/products', (req, res) => {
-  return res.send('THIS IS PRODUCT LIST');
+  Product.find()
+    .then((result) => res.send(result))
+    .catch((error) => console.log(error))
 });
 
 // GET PRODUCT BY ID
 router.get('/products/:id', (req, res) => {
-  return res.send(req.params.id);
+  Product.find({ _id: req.params.id })
+    .then((result) => res.send(result))
+    .catch((error) => console.log(error))
 });
 
 // ADD PRODUCT
@@ -17,7 +21,7 @@ router.post('/addproduct', (req, res) => {
   const { name, price, description, quantity } = req.body;
 
   const newProduct = new Product({
-    name, price, description, quantity
+    name, price, description, quantity, active: true
   });
 
   newProduct.save()
@@ -31,6 +35,24 @@ router.post('/addproduct', (req, res) => {
     })
 });
 
-// DELETE PRODUCT
+// REMOVE PRODUCT (logic)
+router.post('/removeproduct/:id', (req, res) => {
+  Product.findByIdAndUpdate(req.params.id, {
+    $set: { active: false }
+  })
+    .then((result) => {
+      return res.send(result)
+    })
+});
+
+// RETORE PRODUCT (logic)
+router.post('/removeproduct/:id', (req, res) => {
+  Product.findByIdAndUpdate(req.params.id, {
+    $set: { active: true }
+  })
+    .then((result) => {
+      return res.send(result)
+    })
+});
 
 module.exports = router;
