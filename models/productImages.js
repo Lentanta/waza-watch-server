@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 // ProductImage schema
-const productImageSchema = new mongoose.Schema({
+const ProductImageSchema = new mongoose.Schema({
   url: String
 });
 
-const ProductImage = mongoose.model('ProductImage', productImageSchema);
-module.exports = { ProductImage, productImageSchema };
+const ProductImage = mongoose.model('ProductImage', ProductImageSchema);
+module.exports = { ProductImage, ProductImageSchema };

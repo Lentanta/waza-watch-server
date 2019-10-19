@@ -1,25 +1,25 @@
 const mongoose = require('mongoose');
-const brandSchema = require('./brands');
-const productImageSchema = require('./productImages');
-const categorySchema = require('./categories');
+const { BrandSchema } = require('./brands');
+const { ProductImageSchema } = require('./productImages');
+const { CategorySchema } = require('./categories');
 
 // Product schema
-const productSchema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
   name: String,
   price: Number,
   description: String,
   quantity: Number,
   productImage: {
-    type: [productImageSchema]
+    type: [ProductImageSchema]
   },
   brand: {
-    type: [brandSchema]
+    type: BrandSchema
   },
   category: {
-    type: [categorySchema] 
+    type: CategorySchema
   },
   active: Boolean
 });
 
-const Product = mongoose.model('Product', productSchema);
-module.exports = Product;
+const Product = mongoose.model('Product', ProductSchema);
+module.exports = { Product, ProductSchema };

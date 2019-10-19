@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/products');
+const { Product } = require('../models/products');
 
 // GET PRODUCT LIST
 router.get('/products', (req, res) => {
@@ -18,10 +18,10 @@ router.get('/products/:id', (req, res) => {
 
 // ADD PRODUCT
 router.post('/addproduct', (req, res) => {
-  const { name, price, description, quantity } = req.body;
+  const { name, price, description, quantity, brand, category } = req.body;
 
   const newProduct = new Product({
-    name, price, description, quantity, active: true
+    name, price, description, quantity, brand, category, active: true
   });
 
   newProduct.save()
@@ -46,7 +46,7 @@ router.post('/removeproduct/:id', (req, res) => {
 });
 
 // RETORE PRODUCT (logic)
-router.post('/removeproduct/:id', (req, res) => {
+router.post('/retoreproduct/:id', (req, res) => {
   Product.findByIdAndUpdate(req.params.id, {
     $set: { active: true }
   })
