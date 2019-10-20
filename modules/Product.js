@@ -18,10 +18,10 @@ router.get('/products/:id', (req, res) => {
 
 // ADD PRODUCT
 router.post('/addproduct', (req, res) => {
-  const { name, price, description, quantity, brand, category } = req.body;
+  const { name, price, description, quantity, brand, category, discount } = req.body;
 
   const newProduct = new Product({
-    name, price, description, quantity, brand, category, active: true
+    name, price, description, quantity, brand, category, discount, active: true
   });
 
   newProduct.save()

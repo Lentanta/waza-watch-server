@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const Product = require('./modules/Product');
 
 // CONECT DATABASE
-mongoose.connect('mongodb+srv://admin:admin@waza-watch-0spzt.gcp.mongodb.net/test?retryWrites=true&w=majority', { useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://admin:admin@waza-watch-0spzt.gcp.mongodb.net/waza-watch?retryWrites=true&w=majority', { useUnifiedTopology: true })
   .then(() => console.log('Connect to waza-watch DB'))
   .catch((err) => console.log(err))
-
+   
 // SERVER SETUP
 const server = express();
 server.use(cors());

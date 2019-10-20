@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { BrandSchema } = require('./brands');
-const { ProductImageSchema } = require('./productImages');
 const { CategorySchema } = require('./categories');
+const { DiscountSchema } = require('./discounts');
 
 // Product schema
 const ProductSchema = new mongoose.Schema({
@@ -9,15 +9,20 @@ const ProductSchema = new mongoose.Schema({
   price: Number,
   description: String,
   quantity: Number,
-  productImage: {
-    type: [ProductImageSchema]
-  },
+  productImage: [],
+
   brand: {
     type: BrandSchema
   },
+
   category: {
     type: CategorySchema
   },
+
+  discount: {
+    type: DiscountSchema
+  },
+
   active: Boolean
 });
 
