@@ -3,12 +3,12 @@ const { ProductSchema } = require('./products');
 
 // BillDetail schema
 const BillDetailSchema = new mongoose.Schema({
-  product: {
-    type: ProductSchema
-  },
   quantity: Number,
   description: String,
-  price: Number
+  price: Number,
+  product: {
+    type: ProductSchema
+  }
 });
 
 const BillDetail = mongoose.model('BillDetail', BillDetailSchema);
