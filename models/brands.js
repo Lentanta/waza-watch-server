@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 // Brand schema
 const BrandSchema = new mongoose.Schema({
-  name: String
+  name: String,
+  active: {
+    type: Boolean,
+    default: true
+}
 });
 
 const Brand = mongoose.model('Brand', BrandSchema);

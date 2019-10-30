@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 const { ProductSchema } = require('./products');
+const Schema = mongoose.Schema;
 
 // BillDetail schema
 const BillDetailSchema = new mongoose.Schema({
   product: {
-    type: ProductSchema
+    type: { type: Schema.Types.ObjectId, ref: 'Product' }
   },
   quantity: Number,
   description: String,
-  price: Number
+  price: Number,
+  active: {
+    type: Boolean,
+    default: true
+}
 });
 
 const BillDetail = mongoose.model('BillDetail', BillDetailSchema);
