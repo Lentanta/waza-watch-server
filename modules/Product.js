@@ -10,8 +10,9 @@ router.post("/products", (req, res) => {
   Product.find()
   .populate('brand')
   .populate('category')
-    // .limit(pagination.perpage)
-    // .skip((pagination.page - 1) * pagination.perpage)
+  .populate('discount')
+    .limit(pagination.perpage)
+    .skip((pagination.page - 1) * pagination.perpage)
     .then(result => {
       Product.countDocuments(Product).then(total => {
         return res.status(200).send({
@@ -25,8 +26,10 @@ router.post("/products", (req, res) => {
 
 // GET PRODUCT BY ID
 router.post("/getProduct", (req, res) => {
-  console.log(req.body);
   Product.find({ _id: req.body.id })
+    .populate('brand')
+    .populate('category')
+    .populate('discount')
     .then(result => res.send(result))
     .catch(error => console.log(error));
 });
