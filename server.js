@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 // modules
 const Product = require('./modules/Product');
 const Brand = require('./modules/Brand');
-
+const Bill = require('./modules/Bill');
+const Category = require('./modules/Categories')
 
 // CONECT DATABASE
 mongoose.connect('mongodb+srv://admin:admin@waza-watch-0spzt.gcp.mongodb.net/waza-watch?retryWrites=true&w=majority', { useUnifiedTopology: true })
@@ -33,6 +34,7 @@ server.use(express.json());
 // ROUTER
 server.use('/api/product', Product);
 server.use('/api/brand', Brand);
-
+server.use('/api/bill', Bill);
+server.use('/api/category',Category)
 
 server.listen(7777, () => console.log('listen to port 7777'))

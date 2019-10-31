@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema({
   price: Number,
   description: String,
   quantity: Number,
-  productImage: [String],
+  productImage: String,
   brand: { type: Schema.Types.ObjectId, ref: 'Brand' },
   category: { type: Schema.Types.ObjectId, ref: 'Category' },
   discount: { type: Schema.Types.ObjectId, ref: 'Discount' },

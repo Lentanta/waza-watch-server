@@ -1,5 +1,8 @@
 const { Category } = require('../models/categories')
-
+const express = require('express');
+const router = express.Router();
+const _ = require('lodash');
+ObjectId = require("mongoose").Types.ObjectId;
 router.post('/categories',(req, res) => {
   const {pagination} = req.body
   Category.find()
@@ -53,3 +56,4 @@ router.post('/getCategoryByArray', (req,res) => {
       return res.status(400);
     })
 })
+module.exports = router
