@@ -5,8 +5,8 @@ const { Brand } = require('../models/brands')
 router.post('/brands',(req, res) => {
     const {pagination} = req.body
     Brand.find()
-    .limit(pagination.perpage)
-    .skip((pagination.page-1)*pagination.perpage)
+    .limit(pagination ? pagination.perpage : 0)
+    .skip(pagination ? (pagination.page - 10) * pagination.perpage:0)
     .then((result) => {
       Brand.countDocuments(Brand).then(total => {
         return res.status(200).send({
@@ -20,8 +20,8 @@ router.post('/brands',(req, res) => {
   });
 
   router.post('/getBrand', (req, res) => {
-    Brand.find({ _id: req.body.id })
-      .then((result) => res.send(result))
+    Brand.findById(req.body.id)
+      .then((result) => res.send({data:result}))
       .catch((error) => console.log(error))
   });
 
@@ -35,7 +35,7 @@ router.post('/brands',(req, res) => {
     newBrand.save()
       .then((result) => {
         console.log(result);
-        return res.status(200).send(result);
+        return res.status(200).send({data:result});
       })
       .catch((error) => {
         console.log(error)

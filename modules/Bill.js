@@ -6,10 +6,10 @@ const _ = require('lodash');
 ObjectId = require("mongoose").Types.ObjectId;
 
 router.post('/createBill', (req, res)=>{
-    const {billDetail,quantity,user,isUser,nonUser,address} = req.body.data
+    console.log(req.body)
+    const {billDetail,user,isUser,nonUser,address} = req.body.data
     if(!_.isEmpty(billDetail)){
         billDetail.forEach(element => {
-            element.price = element.price * quantity
             element.product = ObjectId(element.productId)
         });
         BillDetail.insertMany(billDetail)
@@ -40,11 +40,36 @@ router.post('/createBill', (req, res)=>{
 })
 router.post('/getBills',((req,res) => { 
     Bill.find()
-    .populate({path:'billDetail',populate:{
-        path:'product'
-    }})
+    .sort({ createAt: -1})
     .then(result => {
-        return res.status(200).send(result)
+        Bill.countDocuments().then(total=>{
+            return res.status(200).send({data:result,total})
+        })
     })
 }))
+router.post('/getBill',(req,res)=>{
+    console.log(req.body)
+    Bill.findById(req.body.id)
+    .sort({ createAt: -1})
+    .then(result => {
+        BillDetail.find({_id:result.billDetail,active:true}).then(detail=>{
+            let price = 0;
+            detail.map(element => price += Number(element.price))
+            const newResult = {...result._doc,totalPay:price}
+
+            return res.status(200).send({data:newResult})
+        })
+    })
+})
+router.post('/getBillDetailByArray',(req,res)=>{
+    BillDetail.find({_id:req.body.ids,active:true})
+    .sort({ createAt: -1})
+    .populate('product')
+    .then(result => {
+        return res.status(200).send({data:result,total:result.length})
+    }) 
+})
+router.post('/deleteBillDetail',(req,res)=>{
+
+})
 module.exports = router

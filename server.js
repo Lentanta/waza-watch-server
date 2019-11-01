@@ -27,6 +27,7 @@ server.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
+  server.use(cors())
 
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
@@ -35,6 +36,6 @@ server.use(express.json());
 server.use('/api/product', Product);
 server.use('/api/brand', Brand);
 server.use('/api/bill', Bill);
-server.use('/api/category',Category)
+server.use('/api/category',Category);
 
 server.listen(7777, () => console.log('listen to port 7777'))

@@ -11,8 +11,8 @@ router.post("/products", (req, res) => {
   .populate('brand')
   .populate('category')
   .populate('discount')
-    .limit(pagination.perpage)
-    .skip((pagination.page - 1) * pagination.perpage)
+    .limit(pagination ? pagination.perpage : 0)
+    .skip(pagination ? (pagination.page - 10) * pagination.perpage:0)
     .then(result => {
       Product.countDocuments(Product).then(total => {
         return res.status(200).send({
@@ -26,16 +26,17 @@ router.post("/products", (req, res) => {
 
 // GET PRODUCT BY ID
 router.post("/getProduct", (req, res) => {
-  Product.find({ _id: req.body.id })
+  Product.findById(req.body.id)
     .populate('brand')
     .populate('category')
     .populate('discount')
-    .then(result => res.send(result))
+    .then(result => res.send({data:{result}}))
     .catch(error => console.log(error));
 });
 
 // ADD PRODUCT
 router.post("/addproduct", (req, res) => {
+  console.log(req.body.data)
   const {
     name,
     price,
@@ -63,7 +64,7 @@ router.post("/addproduct", (req, res) => {
     .save()
     .then(result => {
       console.log(result);
-      return res.status(200).send(result);
+      return res.status(200).send({data:result});
     })
     .catch(error => {
       console.log(error);
@@ -76,7 +77,7 @@ router.post("/removeproduct/:id", (req, res) => {
   Product.findByIdAndUpdate(req.params.id, {
     $set: { active: false }
   }).then(result => {
-    return res.send(result);
+    return res.send({data:result});
   });
 });
 
@@ -85,7 +86,7 @@ router.post("/retoreproduct/:id", (req, res) => {
   Product.findByIdAndUpdate(req.params.id, {
     $set: { active: true }
   }).then(result => {
-    return res.send(result);
+    return res.send({data:result});
   });
 });
 

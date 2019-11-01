@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 // Bill schema
 const BillSchema = new mongoose.Schema({
   billDetail: [{ type: Schema.Types.ObjectId, ref: 'BillDetail' }],
+  voucher: {type: Schema.Types.ObjectId}
+  ,
   deliveryState: {
     type:String,
     default: 'ORDER'
