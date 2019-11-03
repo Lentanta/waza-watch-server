@@ -54,7 +54,7 @@ router.post('/getBill',(req,res)=>{
     .then(result => {
         BillDetail.find({_id:result.billDetail,active:true}).then(detail=>{
             let price = 0;
-            detail.map(element => price += Number(element.price))
+            detail.map(element => price += Number(element.price)*Number(element.quantity))
             const newResult = {...result._doc,totalPay:price}
 
             return res.status(200).send({data:newResult})

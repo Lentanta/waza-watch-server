@@ -90,4 +90,10 @@ router.post("/retoreproduct/:id", (req, res) => {
   });
 });
 
+router.post("/updateProduct",(req,res)=>{
+  Product.findByIdAndUpdate(req.body.id,req.body,{ overwrite: true,useFindAndModify:false })
+  .then(result => res.status(200).send({data:result}))
+  .catch(error => res.status(401).send({message:error}))
+})
+
 module.exports = router;

@@ -6,10 +6,10 @@ ObjectId = require("mongoose").Types.ObjectId;
 router.post('/categories',(req, res) => {
   const {pagination} = req.body
   Category.find()
-  .limit(pagination.perpage)
-  .skip((pagination.page-1)*pagination.perpage)
+  .limit(pagination ? pagination.perpage : 0)
+  .skip(pagination ? (pagination.page - 10) * pagination.perpage:0)
   .then((result) => {
-    Category.countDocuments(Category).then(total => {
+    Category.countDocuments({active:true}).then(total => {
       return res.status(200).send({
         data: result,
         total
