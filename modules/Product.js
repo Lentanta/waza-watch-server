@@ -8,11 +8,11 @@ router.post("/products", (req, res) => {
   const { pagination } = req.body;
   console.log(pagination);
   Product.find()
-  .populate('brand')
-  .populate('category')
-  .populate('discount')
+    .populate('brand')
+    .populate('category')
+    .populate('discount')
     .limit(pagination ? pagination.perpage : 0)
-    .skip(pagination ? (pagination.page - 10) * pagination.perpage:0)
+    .skip(pagination ? (pagination.page - 10) * pagination.perpage : 0)
     .then(result => {
       Product.countDocuments(Product).then(total => {
         return res.status(200).send({
@@ -30,7 +30,7 @@ router.post("/getProduct", (req, res) => {
     .populate('brand')
     .populate('category')
     .populate('discount')
-    .then(result => res.send({data:{result}}))
+    .then(result => res.send({ data: { result } }))
     .catch(error => console.log(error));
 });
 
@@ -64,7 +64,7 @@ router.post("/addproduct", (req, res) => {
     .save()
     .then(result => {
       console.log(result);
-      return res.status(200).send({data:result});
+      return res.status(200).send({ data: result });
     })
     .catch(error => {
       console.log(error);
@@ -77,7 +77,7 @@ router.post("/removeproduct/:id", (req, res) => {
   Product.findByIdAndUpdate(req.params.id, {
     $set: { active: false }
   }).then(result => {
-    return res.send({data:result});
+    return res.send({ data: result });
   });
 });
 
@@ -85,15 +85,15 @@ router.post("/removeproduct/:id", (req, res) => {
 router.post("/retoreproduct/:id", (req, res) => {
   Product.findByIdAndUpdate(req.params.id, {
     $set: { active: true }
-  }).then(result => {
-    return res.send({data:result});
+  }, { new: true }).then(result => {
+    return res.send({ data: result });
   });
 });
 
-router.post("/updateProduct",(req,res)=>{
-  Product.findByIdAndUpdate(req.body.id,req.body,{ overwrite: true,useFindAndModify:false })
-  .then(result => res.status(200).send({data:result}))
-  .catch(error => res.status(401).send({message:error}))
-})
+router.post("/updateProduct", (req, res) => {
+  Product.findByIdAndUpdate(req.body.id, req.body, { overwrite: true, useFindAndModify: false })
+    .then(result => res.status(200).send({ data: result }))
+    .catch(error => res.status(401).send({ message: error }))
+});
 
 module.exports = router;

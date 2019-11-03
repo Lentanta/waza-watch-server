@@ -7,11 +7,13 @@ const Product = require('./modules/Product');
 const Brand = require('./modules/Brand');
 const Bill = require('./modules/Bill');
 const Category = require('./modules/Categories')
+const User = require('./modules/User');
 
 // CONECT DATABASE
 mongoose.connect('mongodb+srv://admin:admin@waza-watch-0spzt.gcp.mongodb.net/waza-watch?retryWrites=true&w=majority', { useUnifiedTopology: true })
   .then(() => {
     console.log('success db');
+    //NOTE : Don't touch this !
     // const injector = require('./mockup/injectMockup')
     // injector.brandMockup()
     // injector.categoryMockup()
@@ -19,15 +21,15 @@ mongoose.connect('mongodb+srv://admin:admin@waza-watch-0spzt.gcp.mongodb.net/waz
     // injector.voucherMockup()
   })
   .catch((err) => console.log(err))
-   
+
 // SERVER SETUP
 const server = express();
-server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); 
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-  server.use(cors())
+server.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+server.use(cors())
 
 server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
@@ -36,6 +38,7 @@ server.use(express.json());
 server.use('/api/product', Product);
 server.use('/api/brand', Brand);
 server.use('/api/bill', Bill);
-server.use('/api/category',Category);
+server.use('/api/category', Category);
+server.use('/api/user', User);
 
 server.listen(7777, () => console.log('listen to port 7777'))
