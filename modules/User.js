@@ -16,7 +16,7 @@ router.post('/users', (req, res) => {
         })
 });
 
-// ---  CREATE USER --- //
+// ---  CREATE USER (SIGN UP) --- //
 router.post('/adduser', (req, res) => {
     console.log(req.body);
     const { userName, password, email, phone, birthday, gender } = req.body.data;
