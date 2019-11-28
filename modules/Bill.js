@@ -27,7 +27,7 @@ router.post('/createBill', (req, res)=>{
             newBill.save()
             .then(bill => {
                 if(payment) {
-                    
+
                 }
                 return res.status(200).send(bill)
             })
@@ -82,6 +82,19 @@ router.post('/deleteBillDetail',async (req,res)=>{
         return res.status(200).send(update)
     } catch (e) {
         return res.status(400).send({error:"Can't update bill detail"})
+    }
+})
+
+router.post('/getBillsByUser', async (req,res) => {
+    try {
+        const {userId} = req.body
+        if(userId) {
+            const bills = await Bill.find({ user:userId })
+            return res.status(200).send(bills)
+        }
+        return res.status(400).send({error:"Can't get any user"})
+    } catch (e) {
+        return res.status(400).send({error:"dont have any bills"})
     }
 })
 module.exports = router
