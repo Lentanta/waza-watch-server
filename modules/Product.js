@@ -6,7 +6,6 @@ ObjectId = require("mongoose").Types.ObjectId;
 // GET PRODUCT LIST
 router.post("/products", (req, res) => {
   const { pagination } = req.body;
-  console.log(pagination);
   Product.find()
     .populate('brand')
     .populate('category')
@@ -23,6 +22,46 @@ router.post("/products", (req, res) => {
     })
     .catch(error => console.log(error));
 });
+
+router.post('/sortproductsbybrand', async (req,res) => {
+  try {
+    const {sort} = req.body
+    const products = await Product.find({brand:sort}).populate('brand')
+    .populate('brand')
+    .populate('category')
+    .populate('discount')
+    res.status(200).send({data:products})
+  } catch (e) {
+    res.status(200).send({data:[]})
+  }
+})
+
+router.post('/sortproductsbycategory', async (req,res) => {
+  try {
+    const {sort} = req.body
+    const products = await Product.find({category:sort}).populate('brand')
+    .populate('brand')
+    .populate('category')
+    .populate('discount')
+    res.status(200).send({data:products})
+  } catch (e) {
+    res.status(200).send({data:[]})
+  }
+})
+
+router.post('/sortproductsbyprice', async (req,res) => {
+  try {
+    const {sort} = req.body
+    const products = await Product.find().populate('brand')
+    .populate('brand')
+    .populate('category')
+    .populate('discount')
+    .sort({price:sort})
+    res.status(200).send({data:products})
+  } catch (e) {
+    res.status(200).send({data:[]})
+  }
+})
 
 // GET PRODUCT BY ID
 router.post("/getProduct", (req, res) => {

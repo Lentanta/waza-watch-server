@@ -34,7 +34,8 @@ router.post('/createBill', (req, res)=>{
                         payId: payment.id,
                         payer: payment.payer,
                         amount: payment.purchase_units[0].amount.value,
-                        status: payment.status
+                        status: payment.status,
+                        bill: bill._id
                     })
                     newPayment.save()
                 }
@@ -71,7 +72,6 @@ router.post('/getBill',(req,res)=>{
             let price = 0;
             detail.map(element => price += Number(element.price)*Number(element.quantity))
             const newResult = {...result._doc,totalPay:price}
-
             return res.status(200).send({data:newResult})
         })
     })
