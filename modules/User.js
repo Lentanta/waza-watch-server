@@ -57,6 +57,12 @@ router.post("/userlogin", (req, res) => {
 });
 
 // --- UPDATE USER --- //
+router.post("/getusers", (req, res) => {
+    const { pagination } = req.body;
+    User.findById(req.body.id)
+        .then(result => res.send({ data: { result } }))
+        .catch(error => console.log(error));
+});
 
 // --- REMOVE USER (logic) --- //
 

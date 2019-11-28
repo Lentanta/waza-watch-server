@@ -7,7 +7,7 @@ ObjectId = require("mongoose").Types.ObjectId;
 
 router.post('/createBill', (req, res)=>{
     console.log(req.body)
-    const {billDetail,user,isUser,nonUser,address} = req.body.data
+    const {billDetail,user,isUser,nonUser,address,payment } = req.body.data
     if(!_.isEmpty(billDetail)){
         billDetail.forEach(element => {
             element.product = ObjectId(element.productId)
@@ -17,15 +17,18 @@ router.post('/createBill', (req, res)=>{
             let detail = []
             result.forEach(element => detail.push(element._id))
             const newBill = new Bill({  
-                user,
-                isUser,
+                user: isUser ? ObjectId(user._id): null,
+                isUser: isUser ? true : false,
                 nonUser,
                 address,
+                state: payment ? 'ORDER PAYED':'ORDER',
                 billDetail:detail
             })
             newBill.save()
             .then(bill => {
-                console.log(bill)
+                if(payment) {
+                    
+                }
                 return res.status(200).send(bill)
             })
             .catch(err => {
@@ -38,15 +41,18 @@ router.post('/createBill', (req, res)=>{
         });
     } else res.status(401).send("Can't create empty bill")
 })
+
 router.post('/getBills',((req,res) => { 
     Bill.find()
     .sort({ createAt: -1})
+    .populate('user')
     .then(result => {
         Bill.countDocuments().then(total=>{
             return res.status(200).send({data:result,total})
         })
     })
 }))
+
 router.post('/getBill',(req,res)=>{
     console.log(req.body)
     Bill.findById(req.body.id)
@@ -69,7 +75,13 @@ router.post('/getBillDetailByArray',(req,res)=>{
         return res.status(200).send({data:result,total:result.length})
     }) 
 })
-router.post('/deleteBillDetail',(req,res)=>{
 
+router.post('/deleteBillDetail',async (req,res)=>{
+    try {
+        const update = BillDetail.findByIdAndUpdate({_id:req.body.ids,active:true},{active:false},{new:true})
+        return res.status(200).send(update)
+    } catch (e) {
+        return res.status(400).send({error:"Can't update bill detail"})
+    }
 })
 module.exports = router

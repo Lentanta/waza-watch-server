@@ -3,14 +3,18 @@ const { BillSchema } = require('./bill');
 
 // Payment schema
 const PaymentSchema = new mongoose.Schema({
-  createdAt: Date,
+  createAt: {
+    type: Date,
+    default: new Date()
+  },
   payedAt: Date,
   totalPay: Number,
   payWith: String,
   isPayed: Boolean,
-  payer: String,
+  payer: Object,
   bill: {
-    type: BillSchema
+    type: Schema.Types.ObjectId,
+    ref:'Bill'
   }
 });
 
