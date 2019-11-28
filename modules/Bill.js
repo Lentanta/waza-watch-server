@@ -1,7 +1,9 @@
 const {Bill} = require('../models/bill');
 const {BillDetail} = require('../models/billDetail');
+const {Payment} = require('../models/payment')
 const express = require('express');
 const router = express.Router();
+const moment = require('moment')
 const _ = require('lodash');
 ObjectId = require("mongoose").Types.ObjectId;
 
@@ -21,13 +23,20 @@ router.post('/createBill', (req, res)=>{
                 isUser: isUser ? true : false,
                 nonUser,
                 address,
-                state: payment ? 'ORDER PAYED':'ORDER',
+                deliveryState: payment ? 'ORDER_PAYED':'ORDER',
                 billDetail:detail
             })
             newBill.save()
             .then(bill => {
                 if(payment) {
-
+                    const newPayment = new Payment({
+                        payedAt: moment(payment.update_time).toDate(),
+                        payId: payment.id,
+                        payer: payment.payer,
+                        amount: payment.purchase_units[0].amount.value,
+                        status: payment.status
+                    })
+                    newPayment.save()
                 }
                 return res.status(200).send(bill)
             })
