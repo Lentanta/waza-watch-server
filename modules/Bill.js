@@ -106,4 +106,17 @@ router.post('/getBillsByUser', async (req,res) => {
         return res.status(400).send({error:"dont have any bills"})
     }
 })
+
+router.post('/cancelBill', async (req,res) => {
+    try {
+        const {bill} = req.body
+        if(bill) {
+            const bills = await Bill.findByIdAndUpdate({ _id:bill },{deliveryState:'CANCEL'},{new:true})
+            return res.status(200).send(bills)
+        }
+        return res.status(400).send({error:"Can't get any bill"})
+    } catch (e) {
+        return res.status(400).send({error:"dont have any bills"})
+    }
+})
 module.exports = router
