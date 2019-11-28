@@ -9,6 +9,7 @@ const Bill = require('./modules/Bill');
 const Category = require('./modules/Categories')
 const User = require('./modules/User');
 const Rating = require('./modules/Rating');
+const Voucher = require('./modules/Voucher');
 
 // CONECT DATABASE
 mongoose.connect('mongodb+srv://admin:admin@waza-watch-0spzt.gcp.mongodb.net/waza-watch?retryWrites=true&w=majority', { useUnifiedTopology: true })
@@ -42,5 +43,6 @@ server.use('/api/bill', Bill);
 server.use('/api/category', Category);
 server.use('/api/user', User);
 server.use('/api/rating', Rating);
+server.use('/api/voucher', Voucher);
 
 server.listen(7777, () => console.log('listen to port 7777'))
