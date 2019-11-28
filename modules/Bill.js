@@ -98,7 +98,7 @@ router.post('/getBillsByUser', async (req,res) => {
     try {
         const {userId} = req.body
         if(userId) {
-            const bills = await Bill.find({ user:userId })
+            const bills = await Bill.find({ user:userId }).populate('billDetail')
             return res.status(200).send(bills)
         }
         return res.status(400).send({error:"Can't get any user"})
