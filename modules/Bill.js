@@ -66,7 +66,7 @@ router.post('/getBills',((req,res) => {
 router.post('/getBill',(req,res)=>{
     console.log(req.body)
     Bill.findById(req.body.id)
-    .sort({ createAt: -1})
+    .populate('user')
     .then(result => {
         BillDetail.find({_id:result.billDetail,active:true}).then(detail=>{
             let price = 0;
@@ -113,6 +113,19 @@ router.post('/cancelBill', async (req,res) => {
         if(bill) {
             const bills = await Bill.findByIdAndUpdate({ _id:bill },{deliveryState:'CANCEL'},{new:true})
             return res.status(200).send(bills)
+        }
+        return res.status(400).send({error:"Can't get any bill"})
+    } catch (e) {
+        return res.status(400).send({error:"dont have any bills"})
+    }
+})
+
+router.post('/getpaymentarray',async (req,res)=>{
+    try {
+        const {ids} = req.body
+        if(ids) {
+            const payments = await Payment.find({ bill:ids })
+            return res.status(200).send({data:payments})
         }
         return res.status(400).send({error:"Can't get any bill"})
     } catch (e) {

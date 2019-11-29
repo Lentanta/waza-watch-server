@@ -48,6 +48,35 @@ router.post("/getuser", (req, res) => {
         .catch(error => console.log(error));
 });
 
+router.post("/getusers", (req, res) => {
+        const { pagination } = req.body;
+        User.find()
+          .limit(pagination ? pagination.perpage : 0)
+          .skip(pagination ? (pagination.page - 10) * pagination.perpage : 0)
+          .then(result => {
+            User.countDocuments(User).then(total => {
+              return res.status(200).send({
+                data: result,
+                total
+              });
+            });
+          })
+          .catch(error => console.log(error));
+});
+
+router.post("/getusersarray", (req, res) => {
+        const { ids } = req.body;
+        User.find({_id:ids})
+          .then(result => {
+            User.countDocuments(User).then(total => {
+              return res.status(200).send({
+                data: result,
+                total
+              });
+            });
+          })
+          .catch(error => console.log(error));
+});
 // --- USER LOGIN --- //
 router.post("/userlogin", (req, res) => {
     const { userName, password } = req.body;
