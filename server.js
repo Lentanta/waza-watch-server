@@ -45,4 +45,4 @@ server.use('/api/user', User);
 server.use('/api/rating', Rating);
 server.use('/api/voucher', Voucher);
 
-server.listen(7777, () => console.log('listen to port 7777'))
+server.listen(3000, () => console.log('listen to port 3000'))
